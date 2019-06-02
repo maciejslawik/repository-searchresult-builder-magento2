@@ -12,10 +12,10 @@ namespace MSlwk\RepositorySearchResultBuilder\Test\Unit\Traits;
 
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
-use MSlwk\RepositorySearchResultBuilder\Traits\RepositorySearchResultBuilderTrait;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Data\SearchResultInterface;
-use Magento\Framework\Data\SearchResultInterfaceFactory;
+use Magento\Framework\Api\SearchResultsInterface;
+use Magento\Framework\Api\SearchResultsInterfaceFactory;
+use MSlwk\RepositorySearchResultBuilder\Traits\RepositorySearchResultBuilderTrait;
 
 /**
  * Class RepositoryTestDouble
@@ -31,28 +31,28 @@ class RepositoryTestDouble
     private $collectionFactory;
 
     /**
-     * @var SearchResultInterfaceFactory
+     * @var SearchResultsInterfaceFactory
      */
-    private $searchResultFactory;
+    private $searchResultsFactory;
 
     /**
      * RepositoryTestDouble constructor.
      * @param CollectionFactory $collectionFactory
-     * @param SearchResultInterfaceFactory $searchResultFactory
+     * @param SearchResultsInterfaceFactory $searchResultFactory
      */
     public function __construct(
         CollectionFactory $collectionFactory,
-        SearchResultInterfaceFactory $searchResultFactory
+        SearchResultsInterfaceFactory $searchResultsFactory
     ) {
         $this->collectionFactory = $collectionFactory;
-        $this->searchResultFactory = $searchResultFactory;
+        $this->searchResultsFactory = $searchResultsFactory;
     }
 
     /**
      * @param SearchCriteriaInterface $searchCriteria
-     * @return SearchResultInterface
+     * @return SearchResultsInterface
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultInterface
+    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
     {
         /** @var Collection $collection */
         $collection = $this->collectionFactory->create();
@@ -61,8 +61,8 @@ class RepositoryTestDouble
         $this->addSortOrdersToCollection($searchCriteria, $collection);
         $this->addPagingToCollection($searchCriteria, $collection);
 
-        /** @var SearchResultInterface $searchResults */
-        $searchResults = $this->searchResultFactory->create();
+        /** @var SearchResultsInterface $searchResults */
+        $searchResults = $this->searchResultsFactory->create();
         return $this->buildSearchResult($searchCriteria, $searchResults, $collection);
     }
 }

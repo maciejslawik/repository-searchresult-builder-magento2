@@ -10,17 +10,17 @@ declare(strict_types=1);
 
 namespace MSlwk\RepositorySearchResultBuilder\Test\Unit\Traits;
 
-use Magento\Framework\DataObject;
-use PHPUnit\Framework\TestCase;
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
-use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Data\SearchResultInterface;
-use Magento\Framework\Data\SearchResultInterfaceFactory;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Magento\Framework\Api\Filter;
 use Magento\Framework\Api\Search\FilterGroup;
+use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SearchResultsInterface;
+use Magento\Framework\Api\SearchResultsInterfaceFactory;
 use Magento\Framework\Api\SortOrder;
+use Magento\Framework\DataObject;
+use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Class RepositorySearchResultBuilderTraitTest
@@ -34,9 +34,9 @@ class RepositorySearchResultBuilderTraitTest extends TestCase
     private $collectionFactory;
 
     /**
-     * @var MockObject|SearchResultInterfaceFactory
+     * @var MockObject|SearchResultsInterfaceFactory
      */
-    private $searchResultFactory;
+    private $searchResultsFactory;
 
     /**
      * @var RepositoryTestDouble
@@ -51,11 +51,11 @@ class RepositorySearchResultBuilderTraitTest extends TestCase
         $this->collectionFactory = $this->getMockBuilder(CollectionFactory::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $this->searchResultFactory = $this->getMockBuilder(SearchResultInterfaceFactory::class)
+        $this->searchResultsFactory = $this->getMockBuilder(SearchResultsInterfaceFactory::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->repository = new RepositoryTestDouble($this->collectionFactory, $this->searchResultFactory);
+        $this->repository = new RepositoryTestDouble($this->collectionFactory, $this->searchResultsFactory);
     }
 
     /**
@@ -112,7 +112,7 @@ class RepositorySearchResultBuilderTraitTest extends TestCase
             ->method('create')
             ->will($this->returnValue($collection));
 
-        $searchResults = $this->getMockBuilder(SearchResultInterface::class)
+        $searchResults = $this->getMockBuilder(SearchResultsInterface::class)
             ->setMethods(
                 [
                     'setSearchCriteria',
@@ -125,7 +125,7 @@ class RepositorySearchResultBuilderTraitTest extends TestCase
             )
             ->getMock();
 
-        $this->searchResultFactory->expects($this->once())
+        $this->searchResultsFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($searchResults));
 

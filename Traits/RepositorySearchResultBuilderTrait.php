@@ -11,8 +11,8 @@ declare(strict_types=1);
 namespace MSlwk\RepositorySearchResultBuilder\Traits;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Api\SortOrder;
-use Magento\Framework\Data\SearchResultInterface;
 use Magento\Framework\Data\Collection\AbstractDb;
 
 /**
@@ -67,15 +67,15 @@ trait RepositorySearchResultBuilderTrait
 
     /**
      * @param SearchCriteriaInterface $searchCriteria
-     * @param SearchResultInterface $searchResults
+     * @param SearchResultsInterface $searchResults
      * @param AbstractDb $collection
-     * @return SearchResultInterface
+     * @return SearchResultsInterface
      */
     protected function buildSearchResult(
         SearchCriteriaInterface $searchCriteria,
-        SearchResultInterface $searchResults,
+        SearchResultsInterface $searchResults,
         AbstractDb $collection
-    ): SearchResultInterface {
+    ): SearchResultsInterface {
         $searchResults->setSearchCriteria($searchCriteria);
         $searchResults->setItems($collection->getItems());
         $searchResults->setTotalCount($collection->getSize());
